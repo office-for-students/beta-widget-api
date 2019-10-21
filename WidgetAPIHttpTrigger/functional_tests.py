@@ -28,7 +28,6 @@ export AzureCosmosDbCoursesCollectionId=""
 
 import json
 import unittest
-from unittest import mock
 
 import azure.functions as func
 

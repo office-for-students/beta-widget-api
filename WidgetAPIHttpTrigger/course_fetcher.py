@@ -1,8 +1,6 @@
 import json
 import logging
 
-import azure.cosmos.cosmos_client as cosmos_client
-
 
 class CourseFetcher:
     """Handles retrieving courses from Cosmos DB"""

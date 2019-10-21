@@ -21,14 +21,12 @@ def get_cosmos_client(cosmosdb_uri, cosmosdb_key):
         url_connection=cosmosdb_uri, auth={master_key: cosmosdb_key}
     )
 
+
 def get_http_error_response_json(error_title, error_key, error_value):
     """Returns a JSON object indicating an Http Error"""
     http_error_resp = {}
     http_error_resp["errors"] = []
-    http_error_resp["errors"].append({
-        'error': error_title,
-        'error_values': [{
-            error_key: error_value
-        }]
-    })
+    http_error_resp["errors"].append(
+        {"error": error_title, "error_values": [{error_key: error_value}]}
+    )
     return json.dumps(http_error_resp)

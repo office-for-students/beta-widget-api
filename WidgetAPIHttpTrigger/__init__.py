@@ -5,12 +5,12 @@ import azure.functions as func
 
 from .course_fetcher import CourseFetcher
 
-
 from SharedCode.utils import (
     get_collection_link,
     get_cosmos_client,
     get_http_error_response_json,
 )
+
 from SharedCode.dataset_helper import DataSetHelper
 
 from .course_param_validator import valid_course_params
@@ -57,9 +57,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             )
 
         logging.info("The parameters look good")
-        
-        courses_collection_link = get_collection_link(cosmosdb_database_id, cosmosdb_courses_collection_id)
-        dataset_collection_link = get_collection_link(cosmosdb_database_id, cosmosdb_dataset_collection_id)
+
+        courses_collection_link = get_collection_link(
+            cosmosdb_database_id, cosmosdb_courses_collection_id
+        )
+        dataset_collection_link = get_collection_link(
+            cosmosdb_database_id, cosmosdb_dataset_collection_id
+        )
 
         # Intialise a CourseFetcher
         course_fetcher = CourseFetcher(client, courses_collection_link)
