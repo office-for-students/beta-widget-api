@@ -5,11 +5,7 @@ import azure.functions as func
 
 from .course_fetcher import CourseFetcher
 
-from .utils import (
-    get_collection_link,
-    get_cosmos_client,
-    get_http_error_response_json,
-)
+from .utils import get_collection_link, get_cosmos_client, get_http_error_response_json
 
 from .dataset_helper import DataSetHelper
 

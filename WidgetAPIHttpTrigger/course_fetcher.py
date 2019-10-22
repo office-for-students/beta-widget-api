@@ -21,7 +21,7 @@ class CourseFetcher:
 
         # Create an SQL query to retrieve the course document
         query = (
-            "SELECT * from c "
+            'SELECT {"institution_id": c.institution_id, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name": c.course.institution.pub_ukprn_name, "statistics": { "employment": c.course.statistics.employment, "nhs": c.course.statistics.nss} } AS widget from c '
             f"where c.institution_id = '{institution_id}' "
             f"and c.course_id = '{course_id}' "
             f"and c.course_mode = {mode} "
@@ -48,35 +48,41 @@ class CourseFetcher:
             logging.error(f"{course_count} courses returned. There should be only one.")
 
         # Get the course from the list.
-        course = courses_list[0]
-        logging.info(
-            f"Fetched course: institution_id: {course['institution_id']}"
-            f" course_id: {course['course_id']}"
-        )
+        course = courses_list[0]["widget"]
 
         # Remove unnecessary keys from the course.
-        tidied_course = CourseFetcher.tidy_course(course)
+        stats = CourseFetcher.tidy_widget_stats(course["statistics"])
+        course["statistics"] = stats
 
         # Convert the course to JSON and return
-        return json.dumps(tidied_course)
+        return json.dumps(course)
 
     @staticmethod
-    def tidy_course(course):
-        """Removes our internal items and those that Cosmos DB adds"""
+    def tidy_widget_stats(stats):
+        """Removes unwanted stats in response"""
 
-        keys_to_delete = [
-            "_rid",
-            "_self",
-            "_etag",
-            "_attachments",
-            "_ts",
-            "institution_id",
-            "course_id",
-            "course_mode",
-        ]
-        for key in keys_to_delete:
-            try:
-                del course[key]
-            except KeyError:
-                logging.warning(f"The expected Comsos DB key was not found: {key}")
-        return course
+        if "employment" in stats:
+            e = []
+            for item in stats["employment"]:
+                i = {}
+                if "in_work_or_study" in item:
+                    i["in_work_or_study"] = item["in_work_or_study"]
+                    e.append(i)
+
+            stats["employment"] = e
+
+        if "nss" in stats:
+            n = []
+            for item in stats["nss"]:
+                j = {}
+                if "question_1" in item:
+                    j["question_1"] = item["question_1"]
+
+                if "question_27" in item:
+                    j["question_27"] = item["question_27"]
+
+                n.append(j)
+
+            stats["nss"] = n
+
+        return stats
