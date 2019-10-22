@@ -6,7 +6,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "widget/institutions/{institution_id}/courses/{course_id}/modes/{mode}",
+      "route": "institutions/{institution_id}/courses/{course_id}/modes/{mode}",
       "methods": [
         "get"
       ]
