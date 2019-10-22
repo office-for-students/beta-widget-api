@@ -61,7 +61,7 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_nss_question_1_returned(self):
         expected_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_1": {
                         "description": "Staff are good at explaining things",
@@ -71,7 +71,7 @@ class TestTidyWidgetStats(unittest.TestCase):
             ]
         }
         input_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_1": {
                         "description": "Staff are good at explaining things",
@@ -86,7 +86,7 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_multiple_nss_question_1_returned(self):
         expected_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_1": {
                         "description": "Staff are good at explaining things",
@@ -103,7 +103,7 @@ class TestTidyWidgetStats(unittest.TestCase):
         }
 
         input_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_1": {
                         "description": "Staff are good at explaining things",
@@ -124,7 +124,7 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_nss_question_27_returned(self):
         expected_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_27": {
                         "description": "Overall, I am satisfied with the quality of the course",
@@ -134,7 +134,7 @@ class TestTidyWidgetStats(unittest.TestCase):
             ]
         }
         input_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_27": {
                         "description": "Overall, I am satisfied with the quality of the course",
@@ -149,7 +149,7 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_multiple_nss_question_27_returned(self):
         expected_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_27": {
                         "description": "Overall, I am satisfied with the quality of the course",
@@ -166,7 +166,7 @@ class TestTidyWidgetStats(unittest.TestCase):
         }
 
         input_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_27": {
                         "description": "Overall, I am satisfied with the quality of the course",
@@ -188,7 +188,7 @@ class TestTidyWidgetStats(unittest.TestCase):
     # All being question 1 and 27 from nss and in_work_or_Study from employment
     def test_all_stats_returned(self):
         expected_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_1": {
                         "description": "Staff are good at explaining things",
@@ -203,7 +203,7 @@ class TestTidyWidgetStats(unittest.TestCase):
             "employment": [{"in_work_or_study": 95}],
         }
         input_stats = {
-            "nss": [
+            "nhs": [
                 {
                     "question_1": {
                         "description": "Staff are good at explaining things",

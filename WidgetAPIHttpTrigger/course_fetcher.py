@@ -71,9 +71,9 @@ class CourseFetcher:
 
             stats["employment"] = e
 
-        if "nss" in stats:
+        if "nhs" in stats:
             n = []
-            for item in stats["nss"]:
+            for item in stats["nhs"]:
                 j = {}
                 if "question_1" in item:
                     j["question_1"] = item["question_1"]
@@ -83,6 +83,6 @@ class CourseFetcher:
 
                 n.append(j)
 
-            stats["nss"] = n
+            stats["nhs"] = n
 
         return stats
