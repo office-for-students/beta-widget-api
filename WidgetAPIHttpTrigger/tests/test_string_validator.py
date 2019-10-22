@@ -1,6 +1,6 @@
 import unittest
 
-from SharedCode.string_validator import StringValidator
+from course_param_validator import StringValidator
 
 
 class TestGetStringValidator(unittest.TestCase):

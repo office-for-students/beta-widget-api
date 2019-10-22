@@ -5,13 +5,13 @@ import azure.functions as func
 
 from .course_fetcher import CourseFetcher
 
-from SharedCode.utils import (
+from .utils import (
     get_collection_link,
     get_cosmos_client,
     get_http_error_response_json,
 )
 
-from SharedCode.dataset_helper import DataSetHelper
+from .dataset_helper import DataSetHelper
 
 from .course_param_validator import valid_course_params
 

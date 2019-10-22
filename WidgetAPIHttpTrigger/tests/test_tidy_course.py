@@ -1,13 +1,6 @@
 import unittest
-import os
-import sys
-import inspect
 
 from course_fetcher import CourseFetcher
-
-CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-PARENTDIR = os.path.dirname(CURRENTDIR)
-sys.path.insert(0, PARENTDIR)
 
 
 class TestTidyCourse(unittest.TestCase):
