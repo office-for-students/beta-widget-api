@@ -21,7 +21,7 @@ class CourseFetcher:
 
         # Create an SQL query to retrieve the course document
         query = (
-            'SELECT {"institution_id": c.institution_id, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name": c.course.institution.pub_ukprn_name, "statistics": { "employment": c.course.statistics.employment, "nhs": c.course.statistics.nss} } AS widget from c '
+            'SELECT {"institution_id": c.institution_id, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name": c.course.institution.pub_ukprn_name, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
             f"where c.institution_id = '{institution_id}' "
             f"and c.course_id = '{course_id}' "
             f"and c.course_mode = {mode} "
@@ -71,9 +71,9 @@ class CourseFetcher:
 
             stats["employment"] = e
 
-        if "nhs" in stats:
+        if "nss" in stats:
             n = []
-            for item in stats["nhs"]:
+            for item in stats["nss"]:
                 j = {}
                 if "question_1" in item:
                     j["question_1"] = item["question_1"]
@@ -83,6 +83,6 @@ class CourseFetcher:
 
                 n.append(j)
 
-            stats["nhs"] = n
+            stats["nss"] = n
 
         return stats
