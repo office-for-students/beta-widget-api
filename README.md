@@ -4,8 +4,9 @@ Service to discoveruni widget access to course statistics
 
 Builds
 
-# TODO
+master - [![Build Status](https://dev.azure.com/ofsbeta/discoverUni/_apis/build/status/prod/prod-widget-api?branchName=develop)](https://dev.azure.com/ofsbeta/discoverUni/_build/latest?definitionId=41&branchName=develop)
 
+develop - [![Build Status](https://dev.azure.com/ofsbeta/discoverUni/_apis/build/status/dev/dev-widget-api?branchName=develop)](https://dev.azure.com/ofsbeta/discoverUni/_build/latest?definitionId=37&branchName=develop)
 
 ### Configuration Settings
 
