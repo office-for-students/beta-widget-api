@@ -5,7 +5,7 @@ from course_fetcher import CourseFetcher
 
 class TestTidyWidgetStats(unittest.TestCase):
     def test_employment_in_work_or_study_is_returned(self):
-        expected_stats = {"employment": [{"in_work_or_study": 95}]}
+        expected_stats = {"employment": [{"aggregation_level": 14, "in_work_or_study": 95}]}
         input_stats = {
             "employment": [
                 {
@@ -27,7 +27,7 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_multiple_employment_in_work_or_study_is_returned(self):
         expected_stats = {
-            "employment": [{"in_work_or_study": 95}, {"in_work_or_study": 85}]
+            "employment": [{'aggregation_level': 14, 'in_work_or_study': 95}, {'aggregation_level': 14, 'in_work_or_study': 85}]
         }
         input_stats = {
             "employment": [
@@ -188,19 +188,23 @@ class TestTidyWidgetStats(unittest.TestCase):
     # All being question 1 and 27 from nss and in_work_or_Study from employment
     def test_all_stats_returned(self):
         expected_stats = {
-            "nss": [
-                {
-                    "question_1": {
-                        "description": "Staff are good at explaining things",
-                        "agree_or_strongly_agree": 79,
-                    },
-                    "question_27": {
-                        "description": "Overall, I am satisfied with the quality of the course",
-                        "agree_or_strongly_agree": 84,
-                    },
+            'nss': [
+            {
+                'question_1': {
+                    'description': 'Staff are good at explaining things', 
+                    'agree_or_strongly_agree': 79
+                }, 
+                'question_27': {
+                    'description': 'Overall, I am satisfied with the quality of the course', 
+                    'agree_or_strongly_agree': 84
                 }
-            ],
-            "employment": [{"in_work_or_study": 95}],
+            }], 
+            'employment': [
+                {
+                    'aggregation_level': 14, 
+                    'in_work_or_study': 95
+                }
+            ]
         }
         input_stats = {
             "nss": [
