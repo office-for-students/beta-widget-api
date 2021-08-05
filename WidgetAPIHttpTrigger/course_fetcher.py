@@ -71,8 +71,10 @@ class CourseFetcher:
                     i["in_work_or_study"] = item["in_work_or_study"]
                 if "unavailable" in item:
                     if "code" in item["unavailable"]:
-                        if item["unavailable"]["code"] != 1:
-                            e.append(i)
+                        if item["unavailable"]["code"] == 0:
+                            break
+                else:
+                    e.append(i)
 
             stats["employment"] = e
 
