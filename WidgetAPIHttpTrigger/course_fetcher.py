@@ -69,8 +69,10 @@ class CourseFetcher:
                     i["aggregation_level"] = item["aggregation_level"]
                 if "in_work_or_study" in item:
                     i["in_work_or_study"] = item["in_work_or_study"]
-                if "unavailable" not in item:
-                    e.append(i)
+                if "unavailable" in item:
+                    if "code" in item["unavailable"]:
+                        if item["unavailable"]["code"] != 1:
+                            e.append(i)
 
             stats["employment"] = e
 
