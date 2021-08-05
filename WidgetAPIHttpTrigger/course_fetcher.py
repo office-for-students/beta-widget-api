@@ -21,7 +21,7 @@ class CourseFetcher:
 
         # Create an SQL query to retrieve the course document
         query = (
-            'SELECT {"institution_id": c.institution_id, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "subjects": c.course.subjects, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
+            'SELECT {"institution_id": c.institution_id, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
             f"where c.institution_id = '{institution_id}' "
             f"and c.course_id = '{course_id}' "
             f"and c.course_mode = {mode} "
@@ -69,6 +69,8 @@ class CourseFetcher:
                     i["aggregation_level"] = item["aggregation_level"]
                 if "in_work_or_study" in item:
                     i["in_work_or_study"] = item["in_work_or_study"]
+                if "subject" in item:
+                    i["subject"] = item["subject"]
                 if "unavailable" in item:
                     if "code" in item["unavailable"]:
                         if item["unavailable"]["code"] == 1:
@@ -86,9 +88,10 @@ class CourseFetcher:
                 j = {}
                 if "question_1" in item:
                     j["question_1"] = item["question_1"]
-
                 if "question_27" in item:
                     j["question_27"] = item["question_27"]
+                if "subject" in item:
+                    j["subject"] = item["subject"]
                 if "aggregation_level" in item:
                     j["aggregation_level"] = item["aggregation_level"]
                 n.append(j)
