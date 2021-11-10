@@ -64,14 +64,12 @@ class CourseFetcher:
         e = []
         if len(employment) == 1:
             i = dict()
+            stats = ["aggregation_level", "in_work_or_study", "subject"]
             item = employment[0]
-            if "aggregation_level" in item:
-                i["aggregation_level"] = item["aggregation_level"]
-            if "in_work_or_study" in item:
-                i["in_work_or_study"] = item["in_work_or_study"]
-            if "subject" in item:
-                i["subject"] = item["subject"]
             if not item.get("unavailable") or item["unavailable"].get("code", 0) != 1:
+                for stat in stats:
+                    if stat in item:
+                        i[stat] = item[stat]
                 e.append(i)
         data["employment"] = e
 
@@ -80,16 +78,10 @@ class CourseFetcher:
         if len(nss) == 1:
             j = dict()
             item = nss[0]
-            stats = ["question_1"]
-            if "question_1" in item:
-                j["question_1"] = item["question_1"]
-            if "question_27" in item:
-                j["question_27"] = item["question_27"]
-            if "subject" in item:
-                j["subject"] = item["subject"]
-            if "aggregation_level" in item:
-                j["aggregation_level"] = item["aggregation_level"]
+            stats = ["question_1", "question_27", "subject", "aggregation_level"]
+            for stat in stats:
+                if stat in item:
+                    j[stat] = item[stat]
             n.append(j)
         data["nss"] = n
-
         return data
