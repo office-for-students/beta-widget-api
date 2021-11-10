@@ -82,13 +82,14 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
+local.settings.json
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+.idea
 
 # Spyder project settings
 .spyderproject
@@ -117,6 +118,6 @@ bin
 obj
 appsettings.json
 local.settings.json
-local.settings.json.*
+local.settings.json
 .python_packages
 beta-data-pipelines.zip
