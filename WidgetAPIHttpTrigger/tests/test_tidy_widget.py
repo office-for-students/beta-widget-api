@@ -5,7 +5,7 @@ from course_fetcher import CourseFetcher
 
 class TestTidyWidgetStats(unittest.TestCase):
     def test_employment_in_work_or_study_is_returned(self):
-        expected_stats = {"employment": [{"aggregation_level": 14, "in_work_or_study": 95}]}
+        expected_stats = {"employment": [{"aggregation_level": 14, "in_work_or_study": 95}], "nss": []}
         input_stats = {
             "employment": [
                 {
@@ -25,9 +25,9 @@ class TestTidyWidgetStats(unittest.TestCase):
         output_course = CourseFetcher.tidy_widget_stats(input_stats)
         self.assertEqual(expected_stats, output_course)
 
-    def test_multiple_employment_in_work_or_study_is_returned(self):
+    def test_multiple_employment_in_work_or_study_is_returned_as_empty_array(self):
         expected_stats = {
-            "employment": [{'aggregation_level': 14, 'in_work_or_study': 95}, {'aggregation_level': 14, 'in_work_or_study': 85}]
+            "employment": [], "nss": []
         }
         input_stats = {
             "employment": [
@@ -68,7 +68,8 @@ class TestTidyWidgetStats(unittest.TestCase):
                         "agree_or_strongly_agree": 79,
                     }
                 }
-            ]
+            ],
+            "employment": [],
         }
         input_stats = {
             "nss": [
@@ -78,28 +79,15 @@ class TestTidyWidgetStats(unittest.TestCase):
                         "agree_or_strongly_agree": 79,
                     }
                 }
-            ]
+            ],
         }
 
         output_course = CourseFetcher.tidy_widget_stats(input_stats)
         self.assertEqual(expected_stats, output_course)
 
-    def test_multiple_nss_question_1_returned(self):
+    def test_multiple_nss_question_1_returned_as_empty_array(self):
         expected_stats = {
-            "nss": [
-                {
-                    "question_1": {
-                        "description": "Staff are good at explaining things",
-                        "agree_or_strongly_agree": 79,
-                    }
-                },
-                {
-                    "question_1": {
-                        "description": "Staff are good at explaining things",
-                        "agree_or_strongly_agree": 93,
-                    }
-                },
-            ]
+            "nss": [], "employment": []
         }
 
         input_stats = {
@@ -131,7 +119,8 @@ class TestTidyWidgetStats(unittest.TestCase):
                         "agree_or_strongly_agree": 84,
                     }
                 }
-            ]
+            ],
+            "employment": []
         }
         input_stats = {
             "nss": [
@@ -147,22 +136,9 @@ class TestTidyWidgetStats(unittest.TestCase):
         output_course = CourseFetcher.tidy_widget_stats(input_stats)
         self.assertEqual(expected_stats, output_course)
 
-    def test_multiple_nss_question_27_returned(self):
+    def test_multiple_nss_question_27_returned_as_empty_array(self):
         expected_stats = {
-            "nss": [
-                {
-                    "question_27": {
-                        "description": "Overall, I am satisfied with the quality of the course",
-                        "agree_or_strongly_agree": 84,
-                    }
-                },
-                {
-                    "question_27": {
-                        "description": "Overall, I am satisfied with the quality of the course",
-                        "agree_or_strongly_agree": 73,
-                    }
-                },
-            ]
+            "nss": [], "employment": []
         }
 
         input_stats = {
