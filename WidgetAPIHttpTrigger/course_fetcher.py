@@ -58,44 +58,30 @@ class CourseFetcher:
         return json.dumps(course)
 
     @staticmethod
-    def tidy_widget_stats(stats):
+    def tidy_widget_stats(data):
         """Removes unwanted stats in response"""
+        employment = data.get("employment", [])
+        e = []
+        if len(employment) == 1:
+            i = dict()
+            stats = ["aggregation_level", "in_work_or_study", "subject"]
+            item = employment[0]
+            if not item.get("unavailable") or item["unavailable"].get("code", 0) != 1:
+                for stat in stats:
+                    if stat in item:
+                        i[stat] = item[stat]
+                e.append(i)
+        data["employment"] = e
 
-        if "employment" in stats:
-            e = []
-            for item in stats["employment"]:
-                i = {}
-                if "aggregation_level" in item:
-                    i["aggregation_level"] = item["aggregation_level"]
-                if "in_work_or_study" in item:
-                    i["in_work_or_study"] = item["in_work_or_study"]
-                if "subject" in item:
-                    i["subject"] = item["subject"]
-                if "unavailable" in item:
-                    if "code" in item["unavailable"]:
-                        if item["unavailable"]["code"] == 1:
-                            break
-                        else:
-                            e.append(i)
-                else:
-                    e.append(i)
-
-            stats["employment"] = e
-
-        if "nss" in stats:
-            n = []
-            for item in stats["nss"]:
-                j = {}
-                if "question_1" in item:
-                    j["question_1"] = item["question_1"]
-                if "question_27" in item:
-                    j["question_27"] = item["question_27"]
-                if "subject" in item:
-                    j["subject"] = item["subject"]
-                if "aggregation_level" in item:
-                    j["aggregation_level"] = item["aggregation_level"]
-                n.append(j)
-
-            stats["nss"] = n
-
-        return stats
+        nss = data.get("nss", [])
+        n = []
+        if len(nss) == 1:
+            j = dict()
+            item = nss[0]
+            stats = ["question_1", "question_27", "subject", "aggregation_level"]
+            for stat in stats:
+                if stat in item:
+                    j[stat] = item[stat]
+            n.append(j)
+        data["nss"] = n
+        return data
