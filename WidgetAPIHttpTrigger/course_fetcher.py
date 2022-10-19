@@ -59,18 +59,17 @@ class CourseFetcher:
 
     @staticmethod
     def tidy_widget_stats(data):
-        """Removes unwanted stats in response"""
+        """Removes wanted stats in response"""
         employment = data.get("employment", [])
         e = []
         if len(employment) == 1:
             i = dict()
             stats = ["aggregation_level", "in_work_or_study", "subject"]
             item = employment[0]
-            if not item.get("unavailable") or item["unavailable"].get("code", 0) != 1:
-                for stat in stats:
-                    if stat in item:
-                        i[stat] = item[stat]
-                e.append(i)
+            for stat in stats:
+                if stat in item:
+                    i[stat] = item[stat]
+            e.append(i)
         data["employment"] = e
 
         nss = data.get("nss", [])
