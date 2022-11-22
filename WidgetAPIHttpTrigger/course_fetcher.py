@@ -62,7 +62,7 @@ class CourseFetcher:
         """Removes wanted stats in response"""
         employment = data.get("employment", [])
         e = []
-        if len(employment) == 1:
+        if len(employment) > 0:
             i = dict()
             stats = ["aggregation_level", "in_work_or_study", "subject"]
             item = employment[0]
@@ -74,7 +74,7 @@ class CourseFetcher:
 
         nss = data.get("nss", [])
         n = []
-        if len(nss) == 1:
+        if len(nss) > 0:
             j = dict()
             item = nss[0]
             stats = ["question_1", "question_27", "subject", "aggregation_level"]
