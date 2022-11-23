@@ -27,8 +27,13 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_multiple_employment_in_work_or_study_is_returned_as_empty_array(self):
         expected_stats = {
-            "employment": [], "nss": []
+            'employment': [
+                {
+                    'aggregation_level': 14, 'in_work_or_study': 95
+                }
+            ], 'nss': []
         }
+
         input_stats = {
             "employment": [
                 {
@@ -87,7 +92,15 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_multiple_nss_question_1_returned_as_empty_array(self):
         expected_stats = {
-            "nss": [], "employment": []
+            "employment": [],
+            "nss": [
+                {
+                    "question_1": {
+                        "description": "Staff are good at explaining things",
+                        "agree_or_strongly_agree": 79
+                    },
+                }
+            ]
         }
 
         input_stats = {
@@ -138,7 +151,16 @@ class TestTidyWidgetStats(unittest.TestCase):
 
     def test_multiple_nss_question_27_returned_as_empty_array(self):
         expected_stats = {
-            "nss": [], "employment": []
+            'employment': [],
+            'nss': [
+                {
+                    'question_27': {
+                        'agree_or_strongly_agree': 84,
+                        'description': 'Overall, I am satisfied with the '
+                                       'quality of the course'
+                    }
+                }
+            ]
         }
 
         input_stats = {
@@ -165,19 +187,19 @@ class TestTidyWidgetStats(unittest.TestCase):
     def test_all_stats_returned(self):
         expected_stats = {
             'nss': [
-            {
-                'question_1': {
-                    'description': 'Staff are good at explaining things', 
-                    'agree_or_strongly_agree': 79
-                }, 
-                'question_27': {
-                    'description': 'Overall, I am satisfied with the quality of the course', 
-                    'agree_or_strongly_agree': 84
-                }
-            }], 
+                {
+                    'question_1': {
+                        'description': 'Staff are good at explaining things',
+                        'agree_or_strongly_agree': 79
+                    },
+                    'question_27': {
+                        'description': 'Overall, I am satisfied with the quality of the course',
+                        'agree_or_strongly_agree': 84
+                    }
+                }],
             'employment': [
                 {
-                    'aggregation_level': 14, 
+                    'aggregation_level': 14,
                     'in_work_or_study': 95
                 }
             ]
