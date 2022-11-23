@@ -26,7 +26,6 @@ steps:
 
 # Create a Python Virtual Environment and download required dependencies
 - script: |
-    sudo apt-get install python-dev
     python3.8 -m venv .python_packages
     source .python_packages/bin/activate
     python3.8 -m pip install --upgrade pip
