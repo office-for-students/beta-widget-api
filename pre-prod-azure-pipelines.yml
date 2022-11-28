@@ -13,7 +13,7 @@ pool:
 strategy:
   matrix:
     Python38:
-      python.version: '3.7'
+      python.version: '3.8'
 
 # Build Process Tree
 steps:
@@ -26,7 +26,7 @@ steps:
 
 
   - script: |
-      pip install --target="./.python_packages/lib/python3.7/site-packages" -r ./requirements.txt
+      pip install --target="$(System.DefaultWorkingDirectory)/.python_packages/lib/site-packages" -r requirements.txt
     displayName: 'Install Python Dependencies'
 
   # Execute Python Tests
