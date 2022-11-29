@@ -28,18 +28,17 @@ Add the following to your local.settings.json:
 ### Pre-Setup
 
 1) Install [.Net Core 2.2 SDK](https://dotnet.microsoft.com/download), if you haven't already.
-2) Install python 3.6.8 - the latest stable version that works with Azure client.
-```
+2) Install python 3.8
+
 Mac user:
-Install homebrew:
-1) /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-2) brew install sashkab/python/python36
-3) pip3.6 install -U pip setuptools
+
+Install Python via (python.org)[https://python.org] or alternatively use brew
 
 Windows user:
-```
-3) Make sure Python 3.6.8 is set on your PATH, you can check this by running `python3 -v` in terminal window.
-4) Install Azure Client
+
+3. Make sure Python 3.8> is set on your PATH, you can check this by running `python -v` in terminal window.
+
+4. Install Azure Client
 ```
 Mac user:
 brew tap azure/functions
@@ -68,11 +67,11 @@ Azure Storage
 
 3) Retrieve the Azure Storage conection string from azure storage container instance.
 
-3) Create your local.settings.json file at root level of repository and include all environment variables in the configuration settings table above.
+4) Create your local.settings.json file at root level of repository and include all environment variables in the configuration settings table above.
 
-6) Create a virtual machine to run the azure function application by running `python -m venv .env` at root level of repository.
+5) Create a virtual machine to run the azure function application by running `python -m venv .env` at root level of repository.
 
-7) Run service on virtual machine by doing the following:
+6) Run service on virtual machine by doing the following:
 ```
 source .env/bin/activate
 pip install -r requirements.txt
