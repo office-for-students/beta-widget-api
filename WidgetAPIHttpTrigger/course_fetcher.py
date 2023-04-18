@@ -51,11 +51,16 @@ class CourseFetcher:
         course = courses_list[0]["widget"]
 
         # Remove unnecessary keys from the course.
+        course["multiple_subjects"] = self.check_multiple_subjects(course["statistics"])
         stats = CourseFetcher.tidy_widget_stats(course["statistics"])
         course["statistics"] = stats
 
         # Convert the course to JSON and return
         return json.dumps(course)
+
+    @staticmethod
+    def check_multiple_subjects(course) -> bool:
+        return len(course["employment"]) > 1 or len(course["nss"]) > 1
 
     @staticmethod
     def tidy_widget_stats(data):
