@@ -19,20 +19,11 @@ class CourseFetcher:
 
         """
 
-        # Create an SQL query to retrieve the course document
-        query = (
-            'SELECT {"institution_id": c.institution_id, "pub_ukprn": c.course.institution.pub_ukprn, "ukprn": c.course.institution.ukprn, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
-            f"where c.institution_id = '{institution_id}' "
-            f"and c.course_id = '{course_id}' "
-            f"and c.course_mode = {mode} "
-            f"and c.version = {version} "
-        )
-
-        logging.info(f"query: {query}")
-
         # Query the course container using the sql query and options
         courses_list = list(
-            self.fetch_from_cosmos(query)
+            self.search_with_pub_ukprn(
+                institution_id=institution_id, course_id=course_id, mode=mode, version=version
+            )
         )
 
         # If no course matched the arguments passed in return None
@@ -74,6 +65,7 @@ class CourseFetcher:
             f"and c.course_mode = {mode} "
             f"and c.version = {version} "
         )
+        logging.info(f"obtaining pubukprn with ukprn")
         return self.fetch_from_cosmos(query)
 
     def search_with_pub_ukprn(self, institution_id: int, course_id: int, mode: int, version):
@@ -84,6 +76,7 @@ class CourseFetcher:
             f"and c.course_mode = {mode} "
             f"and c.version = {version} "
         )
+        logging.info(f"query: {query}")
         return self.fetch_from_cosmos(query)
 
     def fetch_from_cosmos(self, query):
