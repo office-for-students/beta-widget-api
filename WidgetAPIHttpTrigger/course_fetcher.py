@@ -42,7 +42,7 @@ class CourseFetcher:
         course = courses_list[0]["widget"]
         # Remove unnecessary keys from the course.
         course["multiple_subjects"] = self.check_multiple_subjects(course["statistics"])
-        stats = CourseFetcher.tidy_widget_stats(course["statistics"], course["country"])
+        stats = CourseFetcher.tidy_widget_stats(course["statistics"], course["institution"]["pub_ukprn_country"])
         course["statistics"] = stats
         # Convert the course to JSON and return
         return json.dumps(course)
