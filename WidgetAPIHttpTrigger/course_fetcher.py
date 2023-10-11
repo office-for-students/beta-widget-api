@@ -42,7 +42,7 @@ class CourseFetcher:
         course = courses_list[0]["widget"]
         # Remove unnecessary keys from the course.
         course["multiple_subjects"] = self.check_multiple_subjects(course["statistics"])
-        stats = CourseFetcher.tidy_widget_stats(course["statistics"])
+        stats = CourseFetcher.tidy_widget_stats(course["statistics"], course["country"])
         course["statistics"] = stats
         # Convert the course to JSON and return
         return json.dumps(course)
@@ -70,7 +70,7 @@ class CourseFetcher:
 
     def search_with_pub_ukprn(self, institution_id: int, course_id: int, mode: int, version):
         query = (
-            'SELECT {"institution_id": c.course.institution.pub_ukprn, "pub_ukprn": c.course.institution.pub_ukprn, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
+            'SELECT {"institution_id": c.course.institution.pub_ukprn, "pub_ukprn": c.course.institution.pub_ukprn, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "country": c.course.institution.country, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
             f"where c.course.institution.pub_ukprn = '{institution_id}' "
             f"and c.course_id = '{course_id}' "
             f"and c.course_mode = {mode} "
@@ -88,7 +88,7 @@ class CourseFetcher:
         return len(course["employment"]) > 1 or len(course["nss"]) > 1
 
     @staticmethod
-    def tidy_widget_stats(data):
+    def tidy_widget_stats(data, country):
         """Removes wanted stats in response"""
         employment = data.get("employment", [])
         e = []
@@ -107,7 +107,10 @@ class CourseFetcher:
         if len(nss) > 0:
             j = dict()
             item = nss[0]
-            stats = ["question_1", "question_27", "subject", "aggregation_level"]
+            if country["code"] == "XF":
+                stats = ["question_16", "question_23", "subject", "aggregation_level"]
+            else:
+                stats = ["question_16", "question_28", "subject", "aggregation_level", "nss_country_aggregation_level"]
             for stat in stats:
                 if stat in item:
                     j[stat] = item[stat]
