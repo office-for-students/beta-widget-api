@@ -75,11 +75,10 @@ class CourseFetcher:
             i = dict()
             stats = ["aggregation_level", "in_work_or_study", "subject"]
             item = employment[0]
-            for entry in employment:
-                for stat in stats:
-                    if stat in entry:
-                        i[stat] = entry[stat]
-                e.append(i)
+            for stat in stats:
+                if stat in item:
+                    i[stat] = item[stat]
+            e.append(i)
         data["employment"] = e
 
         nss = data.get("nss", [])
@@ -88,11 +87,10 @@ class CourseFetcher:
             j = dict()
             item = nss[0]
             stats = ["question_1", "question_27", "subject", "aggregation_level"]
-            for entry in nss:
-                for stat in stats:
-                    if stat in entry:
-                        j[stat] = entry[stat]
-                n.append(j)
+            for stat in stats:
+                if stat in item:
+                    j[stat] = item[stat]
+            n.append(j)
         data["nss"] = n
         # print("data ",data)
         return data
