@@ -29,13 +29,17 @@ class CourseFetcher:
         )
 
         logging.info(f"query: {query}")
+        print("MODE", mode, type(mode))
+        print("course", course_id, type(course_id))
+        print("inst", institution_id, type(institution_id))
+        print("ver", version, type(version))
 
-        options = {"enableCrossPartitionQuery": True}
 
         # Query the course container using the sql query and options
         courses_list = list(
-            self.client.QueryItems(self.collection_link, query, options)
+            self.client.query_items(query=query, enable_cross_partition_query=True)
         )
+        print("CLIENT", self.client)
 
         # If no course matched the arguments passed in return None
         if not len(courses_list):
@@ -49,14 +53,14 @@ class CourseFetcher:
 
         # Get the course from the list.
         course = courses_list[0]["widget"]
-
+        # print("HERE MEG: ",course['statistics'])
         # Remove unnecessary keys from the course.
         course["multiple_subjects"] = self.check_multiple_subjects(course["statistics"])
         stats = CourseFetcher.tidy_widget_stats(course["statistics"])
         course["statistics"] = stats
 
         # Convert the course to JSON and return
-        return json.dumps(course)
+        return course
 
     @staticmethod
     def check_multiple_subjects(course) -> bool:
@@ -71,10 +75,11 @@ class CourseFetcher:
             i = dict()
             stats = ["aggregation_level", "in_work_or_study", "subject"]
             item = employment[0]
-            for stat in stats:
-                if stat in item:
-                    i[stat] = item[stat]
-            e.append(i)
+            for entry in employment:
+                for stat in stats:
+                    if stat in entry:
+                        i[stat] = entry[stat]
+                e.append(i)
         data["employment"] = e
 
         nss = data.get("nss", [])
@@ -83,9 +88,11 @@ class CourseFetcher:
             j = dict()
             item = nss[0]
             stats = ["question_1", "question_27", "subject", "aggregation_level"]
-            for stat in stats:
-                if stat in item:
-                    j[stat] = item[stat]
-            n.append(j)
+            for entry in nss:
+                for stat in stats:
+                    if stat in entry:
+                        j[stat] = entry[stat]
+                n.append(j)
         data["nss"] = n
+        # print("data ",data)
         return data

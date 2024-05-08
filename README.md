@@ -28,7 +28,7 @@ Add the following to your local.settings.json:
 ### Pre-Setup
 
 1) Install [.Net Core 2.2 SDK](https://dotnet.microsoft.com/download), if you haven't already.
-2) Install python 3.8
+2) Install python 3.12
 
 Mac user:
 
