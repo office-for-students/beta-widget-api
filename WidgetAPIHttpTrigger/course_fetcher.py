@@ -53,7 +53,6 @@ class CourseFetcher:
 
         # Get the course from the list.
         course = courses_list[0]["widget"]
-        # print("HERE MEG: ",course['statistics'])
         # Remove unnecessary keys from the course.
         course["multiple_subjects"] = self.check_multiple_subjects(course["statistics"])
         stats = CourseFetcher.tidy_widget_stats(course["statistics"])

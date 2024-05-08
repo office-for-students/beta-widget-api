@@ -64,7 +64,6 @@ async def main(institution_id: str, course_id: str, mode: str):
         courses_collection_link = get_collection_link(
             COSMOSDB_DATABASE_ID, COSMOSDB_COURSES_COLLECTION_ID
         )
-        print(courses_collection_link, "MEG")
         # dataset_collection_link = get_collection_link(
         #     COSMOSDB_DATABASE_ID, COSMOSDB_INSTITUTION_COLLECTION_ID
         # )
