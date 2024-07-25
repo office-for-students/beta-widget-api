@@ -19,30 +19,18 @@ class CourseFetcher:
 
         """
 
-        # Create an SQL query to retrieve the course document
-        query = (
-            'SELECT {"institution_id": c.institution_id, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
-            f"where c.institution_id = '{institution_id}' "
-            f"and c.course_id = '{course_id}' "
-            f"and c.course_mode = {mode} "
-            f"and c.version = {version} "
-        )
-
-        logging.info(f"query: {query}")
-        print("MODE", mode)
-        print("course", course_id)
-        print("inst", institution_id)
-        print("version", version)
-
-
         # Query the course container using the sql query and options
         courses_list = list(
-            self.client.query_items(query=query, enable_cross_partition_query=True)
+            self.search_with_pub_ukprn(
+                institution_id=institution_id, course_id=course_id, mode=mode, version=version
+            )
         )
 
         # If no course matched the arguments passed in return None
         if not len(courses_list):
-            return None
+            courses_list = self.force_ukprn(institution_id, course_id, mode, version)
+            if not len(courses_list):
+                return None
 
         # Log an error if more than one course is returned by query.
         if len(courses_list) > 1:
@@ -54,18 +42,52 @@ class CourseFetcher:
         course = courses_list[0]["widget"]
         # Remove unnecessary keys from the course.
         course["multiple_subjects"] = self.check_multiple_subjects(course["statistics"])
-        stats = CourseFetcher.tidy_widget_stats(course["statistics"])
+        stats = CourseFetcher.tidy_widget_stats(course["statistics"], course["country"])
         course["statistics"] = stats
-
         # Convert the course to JSON and return
         return course
+
+    def force_ukprn(self, institution_id: int, course_id: int, mode: int, version):
+        ukprn_search = list(self.search_with_ukprn(institution_id=institution_id, course_id=course_id, mode=mode,
+                                                   version=version))
+        pub_ukprn = ukprn_search[0]["widget"]["pub_ukprn"]
+        courses_list = list(
+            self.search_with_pub_ukprn(institution_id=pub_ukprn, course_id=course_id, mode=mode, version=version)
+        )
+        return courses_list
+
+    def search_with_ukprn(self, institution_id: int, course_id: int, mode: int, version):
+        """Searches with ukprn then uses the pubukprn to search correctly"""
+        query = (
+            'SELECT {"institution_id": c.course.institution.ukprn, "pub_ukprn": c.course.institution.pub_ukprn, "course_id": c.course_id, "course_mode": c.course_mode} AS widget from c '
+            f"where c.course.institution.ukprn = '{institution_id}' "
+            f"and c.course_id = '{course_id}' "
+            f"and c.course_mode = {mode} "
+            f"and c.version = {version} "
+        )
+        logging.info(f"obtaining pubukprn with ukprn")
+        return self.fetch_from_cosmos(query)
+
+    def search_with_pub_ukprn(self, institution_id: int, course_id: int, mode: int, version):
+        query = (
+            'SELECT {"institution_id": c.course.institution.pub_ukprn, "pub_ukprn": c.course.institution.pub_ukprn, "course_id": c.course_id, "course_name": {"english": c.course.title.english, "welsh": c.course.title.welsh}, "course_mode": c.course_mode, "institution_name":{"english": c.course.institution.pub_ukprn_name, "welsh": c.course.institution.pub_ukprn_welsh_name}, "country": c.course.country, "statistics": { "employment": c.course.statistics.employment, "nss": c.course.statistics.nss} } AS widget from c '
+            f"where c.course.institution.pub_ukprn = '{institution_id}' "
+            f"and c.course_id = '{course_id}' "
+            f"and c.course_mode = {mode} "
+            f"and c.version = {version} "
+        )
+        logging.info(f"query: {query}")
+        return self.fetch_from_cosmos(query)
+
+    def fetch_from_cosmos(self, query):
+        return self.client.query_items(query=query, enable_cross_partition_query=True)
 
     @staticmethod
     def check_multiple_subjects(course) -> bool:
         return len(course["employment"]) > 1 or len(course["nss"]) > 1
 
     @staticmethod
-    def tidy_widget_stats(data):
+    def tidy_widget_stats(data, country):
         """Removes wanted stats in response"""
         employment = data.get("employment", [])
         e = []
@@ -84,11 +106,13 @@ class CourseFetcher:
         if len(nss) > 0:
             j = dict()
             item = nss[0]
-            stats = ["question_1", "question_27", "subject", "aggregation_level"]
+            if country["code"] == "XF":
+                stats = ["question_16", "question_23", "subject", "aggregation_level"]
+            else:
+                stats = ["question_16", "question_28", "subject", "aggregation_level", "nss_country_aggregation_level"]
             for stat in stats:
                 if stat in item:
                     j[stat] = item[stat]
             n.append(j)
         data["nss"] = n
-        # print("data ",data)
         return data
