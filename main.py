@@ -10,9 +10,26 @@ from processes.course_fetcher import CourseFetcher
 from processes.course_param_validator import valid_course_params
 from processes.dataset_helper import get_highest_successful_version_number
 from processes.utils import get_collection_link, get_cosmos_client
-
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 templates = Jinja2Templates(directory='templates')
+
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:8081",
+    "http://localhost:63342",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 # Initialise cosmos db client
 client = get_cosmos_client(COSMOSDB_URI, COSMOSDB_KEY)
