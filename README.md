@@ -1,6 +1,8 @@
 beta-widget-api
 =================
-Service to discoveruni widget access to course statistics
+Service to discoveruni widget access to course statistics.
+
+This is a FastAPI app, that can also be run as an azure function.
 
 Builds
 
@@ -28,7 +30,7 @@ Add the following to your local.settings.json:
 ### Pre-Setup
 
 1) Install [.Net Core 2.2 SDK](https://dotnet.microsoft.com/download), if you haven't already.
-2) Install python 3.12
+2) Install python 3.11
 
 Mac user:
 
@@ -76,6 +78,8 @@ Azure Storage
 source .env/bin/activate
 pip install -r requirements.txt
 func host start
+OR
+uvicorn main:app --reload
 ```
 
 ### Tests

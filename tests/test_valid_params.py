@@ -1,6 +1,6 @@
 import unittest
 
-from course_param_validator import valid_course_params
+from processes.course_param_validator import valid_course_params
 
 
 class TestValidCourseParams(unittest.TestCase):

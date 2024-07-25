@@ -29,17 +29,16 @@ class CourseFetcher:
         )
 
         logging.info(f"query: {query}")
-        print("MODE", mode, type(mode))
-        print("course", course_id, type(course_id))
-        print("inst", institution_id, type(institution_id))
-        print("ver", version, type(version))
+        print("MODE", mode)
+        print("course", course_id)
+        print("inst", institution_id)
+        print("version", version)
 
 
         # Query the course container using the sql query and options
         courses_list = list(
             self.client.query_items(query=query, enable_cross_partition_query=True)
         )
-        print("CLIENT", self.client)
 
         # If no course matched the arguments passed in return None
         if not len(courses_list):
