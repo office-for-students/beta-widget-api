@@ -1,7 +1,11 @@
 import logging
 import traceback
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
+
+from processes import constants
 from processes.constants import COSMOSDB_COURSES_COLLECTION_ID
 from processes.constants import COSMOSDB_DATABASE_ID
 from processes.constants import COSMOSDB_KEY
@@ -9,27 +13,20 @@ from processes.constants import COSMOSDB_URI
 from processes.course_fetcher import CourseFetcher
 from processes.course_param_validator import valid_course_params
 from processes.dataset_helper import get_highest_successful_version_number
-from processes.utils import get_collection_link, get_cosmos_client
-from fastapi.middleware.cors import CORSMiddleware
+from processes.utils import get_collection_link
+from processes.utils import get_cosmos_client
+
 app = FastAPI()
 templates = Jinja2Templates(directory='templates')
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:8081",
-    "http://localhost:63342",
-]
-
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=constants.ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
 
 # Initialise cosmos db client
 client = get_cosmos_client(COSMOSDB_URI, COSMOSDB_KEY)
