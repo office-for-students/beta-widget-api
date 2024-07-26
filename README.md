@@ -93,3 +93,9 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 ### License
 
 See [LICENSE](LICENSE.md) for details.
+
+
+az functionapp create --resource-group pre-prod-discoveruni --consumption-plan-location uksouth --runtime python --runtime-version 3.11 --functions-version 4 --name WidgetApiV2
+ --storage-account ppdiscoveruniwidgetv2 --os-type Linux
+
+func azure functionapp publish WidgetApiV2  
