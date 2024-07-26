@@ -5,6 +5,8 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 BASE_URL = config("BASE_URL")
 API_KEY = config("API_KEY", default="")
 API_DOMAIN = config("API_DOMAIN", default="")
+# ALLOWED ORIGINS example, "https://google.com, http://localhost:8000"
+ALLOWED_ORIGINS = config('ALLOWED_ORIGINS', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # API
 COURSE_DATA_SERVICE = config("CourseDataService")
