@@ -1,15 +1,12 @@
 {
-  "scriptFile": "__init__.py",
+  "scriptFile": "function_app.py",
   "bindings": [
     {
-      "authLevel": "function",
+      "authLevel": "anonymous",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "institutions/{institution_id}/courses/{course_id}/modes/{mode}",
-      "methods": [
-        "get"
-      ]
+      "methods": ["post"]
     },
     {
       "type": "http",
