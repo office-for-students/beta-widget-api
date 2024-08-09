@@ -56,8 +56,8 @@ class CourseFetcher:
                 self.search_with_pub_ukprn(institution_id=pub_ukprn, course_id=course_id, mode=mode, version=version)
             )
         except IndexError:
-            logging.error(f"Cannot find course. Course_id: {course_id}, Instution_id: {institution_id}, Mode: {mode}")
-            courses_list = ""
+            logging.error(f"Course data doesnt exist. Course_id: {course_id}, Instution_id: {institution_id}, Mode: {mode}")
+            courses_list = []
 
         return courses_list
 

@@ -42,7 +42,6 @@ async def main(institution_id: str, course_id: str, mode: str):
     The API is fully documented in a swagger document in the same repo
     as this module.
     """
-
     try:
         params = {
             'institution_id': institution_id,
