@@ -50,10 +50,15 @@ class CourseFetcher:
     def force_ukprn(self, institution_id: int, course_id: int, mode: int, version):
         ukprn_search = list(self.search_with_ukprn(institution_id=institution_id, course_id=course_id, mode=mode,
                                                    version=version))
-        pub_ukprn = ukprn_search[0]["widget"]["pub_ukprn"]
-        courses_list = list(
-            self.search_with_pub_ukprn(institution_id=pub_ukprn, course_id=course_id, mode=mode, version=version)
-        )
+        try:
+            pub_ukprn = ukprn_search[0]["widget"]["pub_ukprn"]
+            courses_list = list(
+                self.search_with_pub_ukprn(institution_id=pub_ukprn, course_id=course_id, mode=mode, version=version)
+            )
+        except IndexError:
+            logging.error(f"Cannot find course. Course_id: {course_id}, Instution_id: {institution_id}, Mode: {mode}")
+            courses_list = ""
+
         return courses_list
 
     def search_with_ukprn(self, institution_id: int, course_id: int, mode: int, version):
