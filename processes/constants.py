@@ -1,7 +1,7 @@
 from decouple import config
 
 # Server
-DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = config("DEBUG", default=False)
 BASE_URL = config("BASE_URL")
 API_KEY = config("API_KEY", default="")
 API_DOMAIN = config("API_DOMAIN", default="")
