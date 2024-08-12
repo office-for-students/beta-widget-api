@@ -1,6 +1,8 @@
 beta-widget-api
 =================
-Service to discoveruni widget access to course statistics
+Service to discoveruni widget access to course statistics.
+
+This is a FastAPI app, that can also be run as an azure function.
 
 Builds
 
@@ -12,23 +14,24 @@ develop - [![Build Status](https://dev.azure.com/ofsbeta/discoverUni/_apis/build
 
 Add the following to your local.settings.json:
 
-| Variable                              | Default                | Description                                                        |
-| ------------------------------------- | ---------------------- | ------------------------------------------------------------------ |
-| FUNCTIONS_WORKER_RUNTIME              | python                 | The programming language the function worker runs on               |
-| AzureStorageAccountName               | {retrieve from portal} | The default endpoint to access storage account                     |
-| AzureCosmosDbUri                      | {retrieve from portal} | The cosmos db uri to access the datastore                          |
-| AzureCosmosDbKey                      | {retrieve from portal} | The cosmos database key in which to connect to the datastore       |
-| AzureCosmosDbConnectionString         | {retrieve from portal} | The connection string in which to connect to the datastore         |
-| AzureCosmosDbDatabaseId               | discoveruni            | The name of the database in which resource documents are stored in |
-| AzureCosmosDbDataSetCollectionId      | datasets               | The name of the collection in which datasets are uploaded to       |
-| AzureCosmosDbCoursesCollectionId      | courses                | The name of the collection in which courses are uploaded to        |
+| Variable                         | Default                | Description                                                        |
+|----------------------------------|------------------------|--------------------------------------------------------------------|
+| FUNCTIONS_WORKER_RUNTIME         | python                 | The programming language the function worker runs on               |
+| AzureStorageAccountName          | {retrieve from portal} | The default endpoint to access storage account                     |
+| AzureCosmosDbUri                 | {retrieve from portal} | The cosmos db uri to access the datastore                          |
+| AzureCosmosDbKey                 | {retrieve from portal} | The cosmos database key in which to connect to the datastore       |
+| AzureCosmosDbConnectionString    | {retrieve from portal} | The connection string in which to connect to the datastore         |
+| AzureCosmosDbDatabaseId          | discoveruni            | The name of the database in which resource documents are stored in |
+| AzureCosmosDbDataSetCollectionId | datasets               | The name of the collection in which datasets are uploaded to       |
+| AzureCosmosDbCoursesCollectionId | courses                | The name of the collection in which courses are uploaded to        |
+| ALLOWED_HOSTS                    | ""                     | The allowed hosts for the application as a comma separated string  |
 
 ### Setup
 
 ### Pre-Setup
 
 1) Install [.Net Core 2.2 SDK](https://dotnet.microsoft.com/download), if you haven't already.
-2) Install python 3.8
+2) Install python 3.11
 
 Mac user:
 
@@ -76,6 +79,8 @@ Azure Storage
 source .env/bin/activate
 pip install -r requirements.txt
 func host start
+OR
+uvicorn main:app --reload
 ```
 
 ### Tests
@@ -89,3 +94,19 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 ### License
 
 See [LICENSE](LICENSE.md) for details.
+
+# new function app creation
+
+**NB** Current release is done outside the pipeline, so the function app is created manually.
+
+Below is the command for creating the function app in the existing pre-prod account
+`az functionapp create --resource-group <resource group> --consumption-plan-location <region> --runtime python --runtime-version 3.11 --functions-version 4 --name <app-name>
+--storage-account <storage account> --os-type Linux`
+
+# new function app deployment
+
+Below is the command to deploy the function app to azure (pre-prod)
+
+`func azure functionapp publish <app-name>`
+
+**NB** These commands should be updated with the correct function app name and the correct resource group name for production.

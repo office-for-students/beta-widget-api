@@ -13,7 +13,7 @@ pool:
 strategy:
   matrix:
     Python38:
-      python.version: '3.10'
+      python.version: '3.11'
 
 # Build Process Tree
 steps:
@@ -24,13 +24,17 @@ steps:
       versionSpec: '$(python.version)'
     displayName: 'Use Python $(python.version)'
 
-
+# Create a Python Virtual Environment and download required dependencies
   - script: |
       pip install --target="$(System.DefaultWorkingDirectory)/.python_packages/lib/site-packages" -r requirements.txt
     displayName: 'Install Python Dependencies'
 
   # Execute Python Tests
-#
+  - script: |
+      python -m pip install -r requirements.txt
+      pip install pytest
+      pytest -v
+    displayName: 'pytest'
 
   # Archive the Azure Python Function into a ZIP package for deployment
   - task: ArchiveFiles@2

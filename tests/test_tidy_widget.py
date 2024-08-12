@@ -1,6 +1,6 @@
 import unittest
 
-from course_fetcher import CourseFetcher
+from processes.course_fetcher import CourseFetcher
 
 
 class TestTidyWidgetStats(unittest.TestCase):

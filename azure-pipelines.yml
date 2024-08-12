@@ -15,7 +15,7 @@ pool:
 strategy:
   matrix:
     Python38:
-      python.version: '3.10'
+      python.version: '3.11'
 
 # Build Process Tree
 steps:

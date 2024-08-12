@@ -45,7 +45,7 @@ class CourseFetcher:
         stats = CourseFetcher.tidy_widget_stats(course["statistics"], course["country"])
         course["statistics"] = stats
         # Convert the course to JSON and return
-        return json.dumps(course)
+        return course
 
     def force_ukprn(self, institution_id: int, course_id: int, mode: int, version):
         ukprn_search = list(self.search_with_ukprn(institution_id=institution_id, course_id=course_id, mode=mode,
@@ -80,8 +80,7 @@ class CourseFetcher:
         return self.fetch_from_cosmos(query)
 
     def fetch_from_cosmos(self, query):
-        options = {"enableCrossPartitionQuery": True}
-        return self.client.QueryItems(self.collection_link, query, options)
+        return self.client.query_items(query=query, enable_cross_partition_query=True)
 
     @staticmethod
     def check_multiple_subjects(course) -> bool:
