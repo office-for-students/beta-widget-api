@@ -109,4 +109,4 @@ Below is the command to deploy the function app to azure (pre-prod)
 
 `func azure functionapp publish <app-name>`
 
-These commands should be updated with the correct function app name and the correct resource group name for production.
+**NB** These commands should be updated with the correct function app name and the correct resource group name for production.
